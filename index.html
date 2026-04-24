@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300ffe0'/%3E%3Cstop offset='100%25' stop-color='%237b2fff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='%2305050f'/%3E%3Crect x='2' y='2' width='60' height='60' rx='10' fill='none' stroke='url(%23g)' stroke-width='2'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='26' fill='url(%23g)'%3EMP%3C/text%3E%3C/svg%3E"/>
 <title>Mayank Pathak — Developer</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
@@ -146,137 +147,115 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   .skills-visual{height:280px}
 }
 
-/* ── CERTIFICATES 3D ── */
+/* ── CERTIFICATES 3D GLASS ── */
 #certifications{perspective:1400px}
 .certs-stage{display:grid;grid-template-columns:repeat(2,1fr);gap:3.5rem;padding-top:.5rem}
-.cert-scene{perspective:900px;cursor:pointer}
+.cert-scene{perspective:900px;cursor:pointer;position:relative}
 .cert-flipper{position:relative;width:100%;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.4,0,.2,1);will-change:transform}
-.cert-scene:hover .cert-flipper{transform:rotateY(8deg) rotateX(-4deg) translateZ(20px)}
-.cert-face{backface-visibility:hidden;border-radius:4px;overflow:hidden;position:relative}
 
-/* holographic border glow */
+.cert-face{backface-visibility:hidden;border-radius:16px;overflow:visible;position:relative}
+
+/* subtle border only — no color fill */
 .cert-face::before{
-  content:'';position:absolute;inset:-2px;border-radius:6px;z-index:-1;
-  background:conic-gradient(from var(--angle,0deg),var(--c1),var(--c2),var(--c3),var(--c1));
-  animation:borderSpin 4s linear infinite;
+  content:'';position:absolute;inset:-1px;border-radius:17px;z-index:0;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.10);
+  transition:border-color .4s;
 }
-@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
-@keyframes borderSpin{to{--angle:360deg}}
+.cert-scene:hover .cert-face::before{border-color:rgba(0,255,224,0.25)}
 
+/* fully transparent glass */
 .cert-inner{
-  background:#08081a;
-  border-radius:3px;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(20px) saturate(1.4);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  border-radius:15px;
   overflow:hidden;
   position:relative;
   z-index:1;
 }
 
-/* scanline overlay */
-.cert-inner::after{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:10;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,224,.018) 2px,rgba(0,255,224,.018) 4px);
+/* subtle top sheen */
+.cert-inner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:40%;
+  background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,transparent 100%);
+  pointer-events:none;z-index:2;border-radius:15px 15px 0 0;
 }
 
-.cert-img-wrap{position:relative;overflow:hidden}
-.cert-img-wrap img{width:100%;display:block;transition:transform .8s ease,filter .8s ease;filter:saturate(1.1) contrast(1.05)}
-.cert-scene:hover .cert-img-wrap img{transform:scale(1.05);filter:saturate(1.3) brightness(1.08) contrast(1.08)}
+/* image */
+.cert-img-wrap{position:relative;overflow:hidden;border-radius:14px 14px 0 0;margin:5px 5px 0}
+.cert-img-wrap img{width:100%;display:block;transition:transform .8s ease,filter .8s ease;border-radius:10px 10px 0 0}
+.cert-scene:hover .cert-img-wrap img{transform:scale(1.03);filter:brightness(1.06)}
 
 /* shine sweep */
 .cert-shine{
   position:absolute;inset:0;pointer-events:none;z-index:5;
-  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.18) 50%,transparent 60%);
-  transform:translateX(-100%);
-  transition:transform .8s ease;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 50%,transparent 70%);
+  transform:translateX(-150%);transition:transform .9s ease;border-radius:inherit;
 }
-.cert-scene:hover .cert-shine{transform:translateX(100%)}
+.cert-scene:hover .cert-shine{transform:translateX(150%)}
 
-/* floating badge */
+/* verified badge — minimal */
 .cert-badge{
-  position:absolute;top:12px;right:12px;z-index:20;
-  padding:.35rem .75rem;
-  background:linear-gradient(135deg,var(--c1),var(--c2));
-  color:#000;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  border-radius:2px;
-  box-shadow:0 0 20px rgba(0,255,224,.5),0 0 40px rgba(123,47,255,.3);
-  animation:badgePulse 2.5s ease-in-out infinite;
+  position:absolute;top:14px;right:14px;z-index:20;
+  padding:.3rem .7rem;
+  background:rgba(0,255,224,0.12);
+  border:1px solid rgba(0,255,224,0.3);
+  color:var(--c1);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  border-radius:20px;
+  backdrop-filter:blur(10px);
 }
-@keyframes badgePulse{0%,100%{box-shadow:0 0 20px rgba(0,255,224,.5),0 0 40px rgba(123,47,255,.3)}50%{box-shadow:0 0 35px rgba(0,255,224,.8),0 0 70px rgba(123,47,255,.5)}}
 
-/* info panel below image */
+/* info panel */
 .cert-info{
-  padding:1.5rem;
-  background:linear-gradient(180deg,#08081a 0%,#0b0b20 100%);
-  border-top:1px solid rgba(0,255,224,.08);
+  padding:1.4rem 1.5rem 1.6rem;
+  background:transparent;
   position:relative;
 }
 .cert-info::before{
   content:'';position:absolute;top:0;left:1.5rem;right:1.5rem;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,255,224,.4),transparent);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);
 }
-.cert-issuer-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem}
-.cert-issuer-dot{width:5px;height:5px;border-radius:50%;background:var(--c1);box-shadow:0 0 8px var(--c1);flex-shrink:0}
-.cert-issuer{font-size:.62rem;color:var(--c1);letter-spacing:.18em;text-transform:uppercase}
-.cert-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;line-height:1.25;margin-bottom:1rem;color:var(--text)}
-.cert-pills{display:flex;gap:.6rem;flex-wrap:wrap}
+.cert-issuer-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.55rem}
+.cert-issuer-dot{width:4px;height:4px;border-radius:50%;background:rgba(0,255,224,0.7);flex-shrink:0}
+.cert-issuer{font-size:.6rem;color:var(--c1);letter-spacing:.18em;text-transform:uppercase;opacity:.8}
+.cert-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.08rem;line-height:1.25;margin-bottom:.9rem;color:var(--text)}
+.cert-pills{display:flex;gap:.5rem;flex-wrap:wrap}
 .cert-pill{
-  font-size:.62rem;letter-spacing:.06em;padding:.28rem .7rem;
+  font-size:.6rem;letter-spacing:.05em;padding:.25rem .65rem;
   border-radius:20px;
-  border:1px solid rgba(0,255,224,.2);
-  color:rgba(240,240,255,.55);
-  background:rgba(0,255,224,.05);
-  display:flex;align-items:center;gap:.35rem;
+  border:1px solid rgba(255,255,255,0.08);
+  color:rgba(240,240,255,.45);
+  background:rgba(255,255,255,.03);
+  display:flex;align-items:center;gap:.3rem;
+}
+.cert-verified{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.32rem .8rem;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,.02);
+  font-size:.6rem;color:rgba(240,240,255,.4);letter-spacing:.1em;text-transform:uppercase;
+  border-radius:20px;margin-top:.9rem;
 }
 
-/* 3D shadow stack */
-.cert-shadow{
-  position:absolute;inset:0;
-  box-shadow:
-    0 20px 60px rgba(0,255,224,.12),
-    0 40px 100px rgba(123,47,255,.1),
-    0 80px 140px rgba(0,0,0,.6);
-  border-radius:4px;
-  pointer-events:none;
-  z-index:-2;
-  transition:box-shadow .9s ease;
-}
-.cert-scene:hover .cert-shadow{
-  box-shadow:
-    0 30px 80px rgba(0,255,224,.22),
-    0 60px 120px rgba(123,47,255,.2),
-    0 100px 160px rgba(0,0,0,.7);
-}
-
-/* floating particles on hover */
-.cert-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:15}
-.cert-p{
-  position:absolute;width:3px;height:3px;border-radius:50%;
-  opacity:0;transition:none;
-}
-.cert-scene:hover .cert-p{animation:particleFloat 1.5s ease-out forwards}
-.cert-p:nth-child(1){left:20%;bottom:0;background:var(--c1);animation-delay:.0s}
-.cert-p:nth-child(2){left:40%;bottom:0;background:var(--c2);animation-delay:.2s}
-.cert-p:nth-child(3){left:60%;bottom:0;background:var(--c3);animation-delay:.1s}
-.cert-p:nth-child(4){left:80%;bottom:0;background:var(--c1);animation-delay:.3s}
-.cert-p:nth-child(5){left:30%;bottom:0;background:var(--c2);animation-delay:.15s}
+/* floating particles */
+.cert-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:15;border-radius:16px}
+.cert-p{position:absolute;border-radius:50%;opacity:0}
+.cert-scene:hover .cert-p{animation:particleFloat 1.6s ease-out forwards}
+.cert-p:nth-child(1){left:15%;bottom:0;width:3px;height:3px;background:rgba(0,255,224,.6);animation-delay:.0s}
+.cert-p:nth-child(2){left:35%;bottom:0;width:2px;height:2px;background:rgba(255,255,255,.4);animation-delay:.2s}
+.cert-p:nth-child(3){left:55%;bottom:0;width:3px;height:3px;background:rgba(123,47,255,.6);animation-delay:.1s}
+.cert-p:nth-child(4){left:75%;bottom:0;width:2px;height:2px;background:rgba(0,255,224,.4);animation-delay:.3s}
+.cert-p:nth-child(5){left:28%;bottom:0;width:3px;height:3px;background:rgba(255,255,255,.3);animation-delay:.15s}
 @keyframes particleFloat{
   0%{opacity:1;transform:translateY(0) scale(1)}
   100%{opacity:0;transform:translateY(-80px) scale(0)}
 }
 
-/* verified stamp */
-.cert-verified{
-  display:inline-flex;align-items:center;gap:.4rem;
-  padding:.4rem .9rem;
-  border:1px solid rgba(0,255,224,.25);
-  background:rgba(0,255,224,.04);
-  font-size:.62rem;color:var(--c1);letter-spacing:.1em;text-transform:uppercase;
-  margin-top:1rem;
-}
-.cert-verified-ico{font-size:.75rem}
-
 @media(max-width:768px){
   .certs-stage{grid-template-columns:1fr;gap:2.5rem}
   .cert-scene:hover .cert-flipper{transform:rotateY(4deg) rotateX(-2deg) translateZ(10px)}
+}
 }
 
 </style>
@@ -418,7 +397,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
     <!-- CERT 1: Skill India -->
     <div class="cert-scene reveal" style="transition-delay:.1s">
-      <div class="cert-shadow"></div>
       <div class="cert-flipper">
         <div class="cert-face">
           <div class="cert-inner">
@@ -451,7 +429,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
     <!-- CERT 2: Infosys -->
     <div class="cert-scene reveal" style="transition-delay:.25s">
-      <div class="cert-shadow"></div>
       <div class="cert-flipper">
         <div class="cert-face" style="--angle:180deg">
           <div class="cert-inner">
@@ -462,19 +439,19 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
                 <div class="cert-p"></div><div class="cert-p"></div><div class="cert-p"></div>
                 <div class="cert-p"></div><div class="cert-p"></div>
               </div>
-              <div class="cert-badge" style="background:linear-gradient(135deg,var(--c2),var(--c3))">✓ Verified</div>
+              <div class="cert-badge">✓ Verified</div>
             </div>
             <div class="cert-info">
               <div class="cert-issuer-row">
-                <div class="cert-issuer-dot" style="background:var(--c2);box-shadow:0 0 8px var(--c2)"></div>
-                <span class="cert-issuer" style="color:var(--c2)">Infosys Springboard</span>
+                <div class="cert-issuer-dot"></div>
+                <span class="cert-issuer">Infosys Springboard</span>
               </div>
               <div class="cert-name">Introduction to Artificial Intelligence</div>
               <div class="cert-pills">
-                <span class="cert-pill" style="border-color:rgba(123,47,255,.25);background:rgba(123,47,255,.06)">📅 Mar 30, 2026</span>
-                <span class="cert-pill" style="border-color:rgba(123,47,255,.25);background:rgba(123,47,255,.06)">🏛 Infosys Limited</span>
+                <span class="cert-pill">📅 Mar 30, 2026</span>
+                <span class="cert-pill">🏛 Infosys Limited</span>
               </div>
-              <div class="cert-verified" style="border-color:rgba(123,47,255,.25);color:var(--c2)"><span class="cert-verified-ico">🛡</span> Issued by Satheesha B. Nanjappa, SVP Infosys</div>
+              <div class="cert-verified"><span class="cert-verified-ico">🛡</span> Issued by Satheesha B. Nanjappa, SVP Infosys</div>
             </div>
           </div>
         </div>
